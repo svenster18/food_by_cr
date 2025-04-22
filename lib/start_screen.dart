@@ -9,7 +9,7 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > 800) {
+          if (constraints.maxWidth > 1200) {
             return StartWebPage();
           } else {
             return StartMobilePage();

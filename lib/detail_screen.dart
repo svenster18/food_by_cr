@@ -14,6 +14,60 @@ class _DetailScreenState extends State<DetailScreen> {
   var icon = Icons.favorite_border;
   var quantity = 1;
 
+  void setFavorite() {
+    setState(() {
+      if (icon == Icons.favorite) {
+        icon = Icons.favorite_border;
+      } else {
+        icon = Icons.favorite;
+      }
+    });
+  }
+
+  void addQuantity() {
+    setState(() {
+      quantity++;
+    });
+  }
+
+  void removeQuantity() {
+    setState(() {
+      if (quantity > 1) {
+        quantity--;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DetailMobilePage(
+        dessert: widget.dessert,
+        onAddFavorite: setFavorite,
+        onAddQuantity: addQuantity,
+        onRemoveQuantity: removeQuantity,
+        icon: icon,
+        quantity: quantity);
+  }
+}
+
+class DetailMobilePage extends StatelessWidget {
+  final Dessert dessert;
+  final VoidCallback onAddFavorite;
+  final VoidCallback onAddQuantity;
+  final VoidCallback onRemoveQuantity;
+  final IconData icon;
+  final int quantity;
+
+  const DetailMobilePage({
+    super.key,
+    required this.dessert,
+    required this.onAddFavorite,
+    required this.onAddQuantity,
+    required this.onRemoveQuantity,
+    required this.icon,
+    required this.quantity,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,13 +75,7 @@ class _DetailScreenState extends State<DetailScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                if (icon == Icons.favorite) {
-                  icon = Icons.favorite_border;
-                } else {
-                  icon = Icons.favorite;
-                }
-              });
+              onAddFavorite();
             },
             icon: Icon(icon),
           ),
@@ -40,7 +88,7 @@ class _DetailScreenState extends State<DetailScreen> {
               children: [
                 Center(
                   child: Text(
-                    widget.dessert.name,
+                    dessert.name,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
@@ -51,7 +99,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     children: [
                       Text("Rp ", style: TextStyle(color: Colors.grey)),
                       Text(
-                        widget.dessert.price,
+                        dessert.price,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -60,26 +108,20 @@ class _DetailScreenState extends State<DetailScreen> {
                     ],
                   ),
                 ),
-                Image.asset(widget.dessert.imageAsset,),
+                Expanded(child: Image.asset(dessert.imageAsset)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
                       onPressed: () {
-                        setState(() {
-                          if (quantity > 1) {
-                            quantity--;
-                          }
-                        });
+                        onRemoveQuantity();
                       },
                       icon: Icon(Icons.remove_circle),
                     ),
                     Text(quantity.toString()),
                     IconButton(
                       onPressed: () {
-                        setState(() {
-                          quantity++;
-                        });
+                        onAddQuantity();
                       },
                       icon: Icon(Icons.add_circle),
                     ),
@@ -93,7 +135,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: [
                         Icon(Icons.local_fire_department),
                         SizedBox(width: 4.0),
-                        Text("${widget.dessert.calories} Calories"),
+                        Text("${dessert.calories} Calories"),
                       ],
                     ),
                     Row(
@@ -101,7 +143,8 @@ class _DetailScreenState extends State<DetailScreen> {
                         Icon(Icons.timer),
                         SizedBox(width: 4.0),
                         Text(
-                          "${widget.dessert.minCreateTime} - ${widget.dessert.maxCreateTime} min",
+                          "${dessert.minCreateTime} - ${dessert
+                              .maxCreateTime} min",
                         ),
                       ],
                     ),
@@ -109,7 +152,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: [
                         Icon(Icons.star),
                         SizedBox(width: 4.0),
-                        Text("${widget.dessert.rating}"),
+                        Text("${dessert.rating}"),
                       ],
                     ),
                   ],
@@ -120,7 +163,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  widget.dessert.description,
+                  dessert.description,
                   style: TextStyle(fontSize: 16.0, color: Colors.grey),
                 ),
                 SizedBox(height: 16.0),
