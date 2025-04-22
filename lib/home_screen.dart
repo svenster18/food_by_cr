@@ -59,7 +59,7 @@ class DessertGrid extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Expanded(flex: 2, child: Image.asset(dessert.imageAsset)),
+                    Expanded(flex: 2, child: Hero(tag: dessert.name, child: Image.asset(dessert.imageAsset))),
                     SizedBox(height: 8.0,),
                     Expanded(
                       child: Row(
@@ -92,7 +92,12 @@ class DessertGrid extends StatelessWidget {
                             ],
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => DetailScreen(dessert: dessert,)),
+                              );
+                            },
                             icon: Icon(Icons.add_circle),
                           ),
                         ],
