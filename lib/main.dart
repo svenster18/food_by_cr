@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_by_cr/start_screen.dart';
+import 'package:food_by_cr/ui/start/start_screen.dart';
 
 void main() {
   runApp(const MyApp());
